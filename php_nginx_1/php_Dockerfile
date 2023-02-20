@@ -1,4 +1,4 @@
-FROM arm64v8/php:7.4-cli
+FROM arm64v8/php:7.2-fpm
 RUN apt-get update && apt-get install -y git \
     && ( \
     cd /tmp \
@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y git \
     ) 
 RUN pecl install redis \
     rdkafka \
-    rdkafka \
     && docker-php-ext-enable redis rdkafka \
     && docker-php-ext-install \
-    mysqli pdo pdo_mysql \
+    mysqli \
     pcntl \
+    pdo pdo_mysql \
     sockets
 RUN cd /tmp && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \

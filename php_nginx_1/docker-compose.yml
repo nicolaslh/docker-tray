@@ -1,0 +1,27 @@
+version: "3.1"
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    environment:
+      WEB_APP_ROOT: index
+    volumes:
+      - ./config/www.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+        - code-network
+  php:
+    build:
+      context: ./
+      dockerfile: ./php_Dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - {work dir}:/var/www/public_html
+    networks:
+        - code-network
+networks:
+    code-network:
+        driver: bridge
