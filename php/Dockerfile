@@ -17,6 +17,10 @@ RUN pecl install redis \
     mysqli pdo pdo_mysql \
     pcntl \
     sockets
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+RUN install-php-extensions gd \
+    gRPC \
+    imagick
 RUN cd /tmp && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm -rf /tmp/*
